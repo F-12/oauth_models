@@ -112,3 +112,4 @@ class Employee(db.Model):
     id = db.Column(db.String(32), primary_key=True)
     user_id = db.Column(db.String(40), unique=True, nullable=False)
     merchant_id = db.Column(db.String(40), nullable=False)
+    role = db.Column(db.String(40), nullable=False)
