@@ -7,9 +7,9 @@ db = SQLAlchemy()
 # Employee: full info referring weixin user info
 class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
-    id = db.Column(db.UUID, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True)
     wx_user_id = db.Column(db.String(40), unique=True,nullable=False)
-    merchant_id = db.Column(db.UUID, nullable=False)
+    merchant_id = db.Column(db.String(36), nullable=False)
     role = db.Column(db.String(40), nullable=False)
 
 
@@ -59,7 +59,7 @@ class Grant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(
-        db.UUID, db.ForeignKey('user.id', ondelete='CASCADE')
+        db.String(36), db.ForeignKey('user.id', ondelete='CASCADE')
     )
     user = db.relationship('User')
 
@@ -97,7 +97,7 @@ class Token(db.Model):
     client = db.relationship('Client')
 
     user_id = db.Column(
-        db.UUID, db.ForeignKey('user.id')
+        db.String(36), db.ForeignKey('user.id')
     )
     user = db.relationship('User')
 
