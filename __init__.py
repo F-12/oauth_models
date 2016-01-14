@@ -2,9 +2,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
+# TODO merge User and Employee
+# Employee: full info referring weixin user info
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(40), unique=True)
+    # id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.UUID, primary_key=True)
+    wx_user_id = db.Column(db.String(40), unique=True,nullable=False)
+    merchant_id = db.Column(db.UUID, nullable=False)
+    role = db.Column(db.String(40), nullable=False)
 
 
 class Instance(db.Model):
@@ -16,6 +22,7 @@ class Instance(db.Model):
 
 
 class Client(db.Model):
+    # TODO use Instance class to represent the relation from Client to Instance
     client_id = db.Column(db.String(40), primary_key=True)
     client_secret = db.Column(db.String(55), nullable=False)
     instance_id = db.Column(db.String(40))
@@ -52,7 +59,7 @@ class Grant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(
-        db.Integer, db.ForeignKey('user.id', ondelete='CASCADE')
+        db.UUID, db.ForeignKey('user.id', ondelete='CASCADE')
     )
     user = db.relationship('User')
 
@@ -90,7 +97,7 @@ class Token(db.Model):
     client = db.relationship('Client')
 
     user_id = db.Column(
-        db.Integer, db.ForeignKey('user.id')
+        db.UUID, db.ForeignKey('user.id')
     )
     user = db.relationship('User')
 
@@ -110,6 +117,6 @@ class Token(db.Model):
 
 class Employee(db.Model):
     id = db.Column(db.String(32), primary_key=True)
-    user_id = db.Column(db.String(40), unique=True, nullable=False)
+    wx_user_id = db.Column(db.String(40), unique=True, nullable=False)
     merchant_id = db.Column(db.String(40), nullable=False)
     role = db.Column(db.String(40), nullable=False)
