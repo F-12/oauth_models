@@ -9,8 +9,8 @@ class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     id = db.Column(db.String(36), primary_key=True)
     wx_user_id = db.Column(db.String(40), unique=True,nullable=False)
-    merchant_id = db.Column(db.String(36), nullable=False)
-    role = db.Column(db.String(40), nullable=False)
+    merchant_id = db.Column(db.String(36), nullable=True)
+    role = db.Column(db.String(40), nullable=True)
 
 
 class Instance(db.Model):
@@ -114,9 +114,9 @@ class Token(db.Model):
         if self._scopes:
             return self._scopes.split()
         return []
-
-class Employee(db.Model):
-    id = db.Column(db.String(32), primary_key=True)
-    wx_user_id = db.Column(db.String(40), unique=True, nullable=False)
-    merchant_id = db.Column(db.String(40), nullable=False)
-    role = db.Column(db.String(40), nullable=False)
+# 
+# class Employee(db.Model):
+#     id = db.Column(db.String(32), primary_key=True)
+#     wx_user_id = db.Column(db.String(40), unique=True, nullable=False)
+#     merchant_id = db.Column(db.String(40), nullable=False)
+#     role = db.Column(db.String(40), nullable=False)
