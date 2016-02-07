@@ -2,13 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
-# TODO merge User and Employee
 # Employee: full info referring weixin user info
+
+
 class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     id = db.Column(db.String(36), primary_key=True)
-    wx_user_id = db.Column(db.String(40), unique=True,nullable=False)
+    wx_user_id = db.Column(db.String(40), unique=True, nullable=False)
     merchant_id = db.Column(db.String(36), nullable=True)
     role = db.Column(db.String(40), nullable=True)
 
@@ -114,9 +114,49 @@ class Token(db.Model):
         if self._scopes:
             return self._scopes.split()
         return []
-# 
-# class Employee(db.Model):
-#     id = db.Column(db.String(32), primary_key=True)
-#     wx_user_id = db.Column(db.String(40), unique=True, nullable=False)
-#     merchant_id = db.Column(db.String(40), nullable=False)
-#     role = db.Column(db.String(40), nullable=False)
+
+
+class Category(db.Model):
+    id = db.Column(db.String(36), primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    parent = db.Column(db.String(36))
+    ctype = db.Column(db.String(40))
+
+class Region(db.Model):
+    id = db.Column(db.String(36),primary_key=True)
+    name = db.Column(db.String(40),nullable=False)
+    city= db.Column(db.String(40))
+
+class VisitLog(db.Model):
+    id = db.Column(db.String(36),primary_key=True)
+    date = db.Column(db.String(40))
+    salesman = db.Column(db.String(36),nullable=False)
+    merchant_id = db.Column(db.String(36),db.ForeignKey('merchant.id'))
+    status = db.Column(db.Integer)
+    comment = db.Column(db.Text)
+
+class Document(db.Model):
+    id = db.Column(db.String(36),primary_key=True)
+    content = db.Column(db.String(255),nullable=False)
+    doctype = db.Column(db.Integer)
+    merchant_id = db.Column(db.String(36),db.ForeignKey('merchant.id'))
+    status = db.Column(db.Integer)
+
+class Merchant(db.Modle):
+    id = db.Column(db.String(40),primary_key=True)
+    name = db.Column(db.String(40),nullable=False)
+    branch_name = db.Column(db.String(40))
+    address = db.Column(db.String(80))
+    telephone = db.Column(db.String(20))
+    business_id = db.Column(db.String(40))
+    mtype = db.Column(db.String(40))
+    # enum,default to 0
+    status = db.Column(db.Integer)
+    region = db.relationship('Region',uselist=False)
+    # TODO extend for future features 
+    # beacons = db.Column(db.String(40))
+    employees = db.relationship('User')
+    documents = db.relationship('Document')
+    visits = db.relationship('VisitLog')
+    appid = db.Column(db.String(255))
+    secretkey = db.Column(db.String(255))
