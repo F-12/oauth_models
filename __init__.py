@@ -142,7 +142,7 @@ class Document(db.Model):
     merchant_id = db.Column(db.String(36),db.ForeignKey('merchant.id'))
     status = db.Column(db.Integer)
 
-class Merchant(db.Modle):
+class Merchant(db.Model):
     id = db.Column(db.String(40),primary_key=True)
     name = db.Column(db.String(40),nullable=False)
     branch_name = db.Column(db.String(40))
@@ -153,7 +153,7 @@ class Merchant(db.Modle):
     # enum,default to 0
     status = db.Column(db.Integer)
     region = db.relationship('Region',uselist=False)
-    # TODO extend for future features 
+    # TODO extend for future features
     # beacons = db.Column(db.String(40))
     employees = db.relationship('User')
     documents = db.relationship('Document')
