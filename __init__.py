@@ -42,7 +42,7 @@ class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     id = db.Column(db.String(36), primary_key=True)
     wx_user_id = db.Column(db.String(40), unique=True, nullable=False)
-    merchant_id = db.Column(db.String(36), nullable=True)
+    merchant_id = db.Column(db.String(36), nullable=True,db.ForeignKey('merchant.id'))
     role = db.Column(db.String(40), nullable=True)
 
 
