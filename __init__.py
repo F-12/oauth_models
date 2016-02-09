@@ -4,6 +4,38 @@ db = SQLAlchemy()
 
 # Employee: full info referring weixin user info
 
+USER_ROLE = {
+    'BOSS': '0',
+    'MANAGER': '1',
+    'CASHIER': '2',
+    'SERVER': '3',
+    'SALESMAN': '4',
+    'SALES_MANAGER': '5'
+}
+
+VISITLOG_STATUS = {
+    'REJECT': 0,
+    'ACCEPT': 1,
+    'INVITATION': 2
+}
+
+DOCUMENT_TYPE = {
+    'DOCUMENT': 0,
+    'PAYMENT': 1
+}
+
+DOCUMENT_STATUS = {
+    'INVALID': 0,
+    'VALID': 1
+}
+
+MERCHANT_STATUS = {
+    'UNTOUCHED': 0,
+    'VISITED': 1,
+    'SIGNED': 2,
+    'REGISTERED': 3,
+    'QUIT': 4
+}
 
 class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
@@ -122,29 +154,33 @@ class Category(db.Model):
     parent = db.Column(db.String(36))
     ctype = db.Column(db.String(40))
 
+
 class Region(db.Model):
-    id = db.Column(db.String(36),primary_key=True)
-    name = db.Column(db.String(40),nullable=False)
-    city= db.Column(db.String(40))
+    id = db.Column(db.String(36), primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    city = db.Column(db.String(40))
+
 
 class VisitLog(db.Model):
-    id = db.Column(db.String(36),primary_key=True)
+    id = db.Column(db.String(36), primary_key=True)
     date = db.Column(db.String(40))
-    salesman = db.Column(db.String(36),nullable=False)
-    merchant_id = db.Column(db.String(36),db.ForeignKey('merchant.id'))
+    salesman = db.Column(db.String(36), nullable=False)
+    merchant_id = db.Column(db.String(36), db.ForeignKey('merchant.id'))
     status = db.Column(db.Integer)
     comment = db.Column(db.Text)
 
+
 class Document(db.Model):
-    id = db.Column(db.String(36),primary_key=True)
-    content = db.Column(db.String(255),nullable=False)
+    id = db.Column(db.String(36), primary_key=True)
+    content = db.Column(db.String(255), nullable=False)
     doctype = db.Column(db.Integer)
-    merchant_id = db.Column(db.String(36),db.ForeignKey('merchant.id'))
+    merchant_id = db.Column(db.String(36), db.ForeignKey('merchant.id'))
     status = db.Column(db.Integer)
 
+
 class Merchant(db.Model):
-    id = db.Column(db.String(40),primary_key=True)
-    name = db.Column(db.String(40),nullable=False)
+    id = db.Column(db.String(40), primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
     branch_name = db.Column(db.String(40))
     address = db.Column(db.String(80))
     telephone = db.Column(db.String(20))
@@ -152,7 +188,7 @@ class Merchant(db.Model):
     mtype = db.Column(db.String(40))
     # enum,default to 0
     status = db.Column(db.Integer)
-    region = db.relationship('Region',uselist=False)
+    region = db.relationship('Region', uselist=False)
     # TODO extend for future features
     # beacons = db.Column(db.String(40))
     employees = db.relationship('User')
