@@ -10,7 +10,7 @@ USER_ROLE = {
     'CASHIER': '2',
     'SERVER': '3',
     'SALESMAN': '4',
-    'SALES_MANAGER': '5'
+    'SALESMANAGER': '5'
 }
 
 VISITLOG_STATUS = {
@@ -36,6 +36,7 @@ MERCHANT_STATUS = {
     'REGISTERED': 3,
     'QUIT': 4
 }
+
 
 class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
@@ -188,6 +189,7 @@ class Merchant(db.Model):
     mtype = db.Column(db.String(40))
     # enum,default to 0
     status = db.Column(db.Integer)
+    region_id = db.Column(db.String(36), db.ForeignKey('region.id'))
     region = db.relationship('Region', uselist=False)
     # TODO extend for future features
     # beacons = db.Column(db.String(40))
